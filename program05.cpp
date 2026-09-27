@@ -1,61 +1,49 @@
-// Program 05: Implements hierarchical inheritance with Vehicle as a common base.
+// Program 05: Overloads the binary + operator for complex numbers.
 
 #include <iostream>
-#include <string>
-#include <utility>
 
-
-class Vehicle {
-protected:
-     std::string registrationNumber;
-
+class Complex {
+private:
+   int real;
+   int imaginary;
 
 public:
-     explicit Vehicle(std::string registration)
-         : registrationNumber(std::move(registration)) {}
+  Complex(int realPart = 0, int imaginaryPart = 0)
+     : real(realPart), imaginary(imaginaryPart) {}
 
+     Complex operator+(const Complex& other) const {
+       return Complex(real + other.real, imaginary + other.imaginary);
+     }
 
-     void start() const {
-         std::cout << "Vehicle " << registrationNumber << " started\n";
+     void display() const {
+       std::cout << real;
+       if (imaginary >= 0) {
+           std::cout << " + ";
+       } else {
+           std::cout << " - ";
+       }
+       std::cout << (imaginary >= 0 ? imaginary : -imaginary) << "i\n";
      }
 };
 
 
-class Car : public Vehicle {
-public:
-     explicit Car(std::string registration) : Vehicle(std::move(registration)) {}
 
 
-     void openBoot() const {
-
-         std::cout << "Car boot opened\n";
-     }
-};
-
-
-class Bike : public Vehicle {
-public:
-     explicit Bike(std::string registration) : Vehicle(std::move(registration)) {}
-
-
-     void helmetReminder() const {
-         std::cout << "Please wear a helmet\n";
-     }
-};
 
 
 int main() {
-     Car car("MH12AB1234");
-     Bike bike("MH12CD5678");
+   Complex first(2, 3);
+   Complex second(4, 5);
+   Complex sum = first + second;
 
+    std::cout << "First complex number: ";
+    first.display();
 
-     car.start();
-     car.openBoot();
+    std::cout << "Second complex number: ";
+    second.display();
 
+    std::cout << "Sum: ";
+    sum.display();
 
-     bike.start();
-     bike.helmetReminder();
-
-
-     return 0;
+    return 0;
 }

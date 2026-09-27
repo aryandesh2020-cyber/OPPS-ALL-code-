@@ -1,119 +1,98 @@
-// Real-Time Application: 01 Employee Payroll System
+// Real-Time Application: 01 Cad Shape Drawing System
 
 #include <iostream>
-#include <string>
+#include <memory>
+#include <vector>
 using namespace std;
 
 
-class Employee {
-protected:
-  int empId;
-  string name;
-  string department;
-
-
+class Shape {
 public:
-  Employee(int id, string n, string dept)
-     : empId(id), name(n), department(dept) {}
-
-
-  void displayBasicInfo() const {
-     cout << "ID: " << empId
-          << " | Name: " << name
-
-
-
-            << " | Department: " << department;
-     }
-
-
-     virtual double calculateSalary() const = 0;
-     virtual ~Employee() = default;
+     virtual double area() const = 0;
+     virtual void draw() const = 0;
+     virtual ~Shape() = default;
 };
 
 
-class FullTimeEmployee : public Employee {
+class Circle : public Shape {
 private:
-     double monthlySalary;
+     double radius;
 
 
 public:
-     FullTimeEmployee(int id, string n, string dept, double salary)
-         : Employee(id, n, dept), monthlySalary(salary) {}
+     explicit Circle(double r) : radius(r) {}
 
 
-     double calculateSalary() const override {
-         return monthlySalary;
+     double area() const override {
+         return 3.14159265359 * radius * radius;
      }
 
 
-     void display() const {
-         displayBasicInfo();
-         cout << " | Type: Full-Time | Salary: Rs. "
-            << calculateSalary() << endl;
+     void draw() const override {
+         cout << "Drawing circle with radius " << radius << endl;
      }
 };
 
 
-class PartTimeEmployee : public Employee {
+class Rectangle : public Shape {
 private:
-     double hourlyRate;
-     int hoursWorked;
 
+
+
+     double length;
+     double width;
 
 
 public:
-     PartTimeEmployee(int id, string n, string dept, double rate, int hours)
-         : Employee(id, n, dept), hourlyRate(rate), hoursWorked(hours) {}
+     Rectangle(double l, double w) : length(l), width(w) {}
 
 
-     double calculateSalary() const override {
-         return hourlyRate * hoursWorked;
+     double area() const override {
+         return length * width;
      }
 
 
-     void display() const {
-         displayBasicInfo();
-         cout << " | Type: Part-Time | Salary: Rs. "
-            << calculateSalary() << endl;
+     void draw() const override {
+         cout << "Drawing rectangle " << length << " x " << width << endl;
      }
 };
 
 
-class Intern : public Employee {
+class Triangle : public Shape {
 private:
-     double stipend;
+     double base;
+     double height;
 
 
 public:
-     Intern(int id, string n, string dept, double stipendAmount)
-         : Employee(id, n, dept), stipend(stipendAmount) {}
+     Triangle(double b, double h) : base(b), height(h) {}
 
 
-     double calculateSalary() const override {
-         return stipend;
+     double area() const override {
+         return 0.5 * base * height;
      }
 
 
-     void display() const {
-         displayBasicInfo();
-         cout << " | Type: Intern | Stipend: Rs. "
-            << calculateSalary() << endl;
-
-
-
+     void draw() const override {
+         cout << "Drawing triangle with base " << base
+            << " and height " << height << endl;
      }
+
+
+
 };
 
 
 int main() {
-     FullTimeEmployee f1(101, "Amit", "IT", 65000);
-     PartTimeEmployee p1(102, "Sneha", "HR", 250, 120);
-     Intern i1(103, "Rohan", "Marketing", 15000);
+     vector<unique_ptr<Shape>> shapes;
+     shapes.push_back(make_unique<Circle>(5.0));
+     shapes.push_back(make_unique<Rectangle>(4.0, 6.0));
+     shapes.push_back(make_unique<Triangle>(3.0, 8.0));
 
 
-     cout << "=== Employee Payroll ===" << endl;
-     f1.display();
-     p1.display();
-     i1.display();
+     cout << "=== CAD Shape System ===" << endl;
+     for (const auto& shape : shapes) {
+         shape->draw();
+         cout << "Area: " << shape->area() << " square units" << endl;
+     }
 }

@@ -1,33 +1,27 @@
-// Program 13: Demonstrates special access using a friend class.
+// Program 13: Demonstrates correct derived destruction through a virtual base destructor.
 
 #include <iostream>
 
-
-class Account {
-private:
-     double balance;
-
-
-     friend class Auditor;
-
-
+class Base {
 public:
-     explicit Account(double initialBalance) : balance(initialBalance) {}
+   virtual ~Base() {
+      std::cout << "Base destructor\n";
+   }
 };
 
-
-class Auditor {
+class Derived : public Base {
 public:
-     void inspect(const Account& account) const {
-         std::cout << "Account Balance: " << account.balance << '\n';
+
+
+
+
+     ~Derived() override {
+       std::cout << "Derived destructor\n";
      }
 };
 
-
 int main() {
-     Account account(5000.0);
-     Auditor auditor;
-
-    auditor.inspect(account);
-    return 0;
+   Base* pointer = new Derived();
+   delete pointer;
+   return 0;
 }

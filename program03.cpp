@@ -1,38 +1,32 @@
-// Program 03: Contrasts public and private inheritance accessibility.
+// Program 03: Overloads unary minus for a user-defined Number class.
 
 #include <iostream>
 
+class Number {
+private:
+   int value;
 
-class Base {
 public:
-     void show() const {
-         std::cout << "Base public function\n";
+  explicit Number(int givenValue) : value(givenValue) {}
+
+     Number operator-() const {
+       return Number(-value);
+     }
+
+     void display() const {
+       std::cout << value << '\n';
      }
 };
-
-
-class PublicDerived : public Base {
-};
-
-
-class PrivateDerived : private Base {
-public:
-     void callBaseShow() const {
-         show();
-     }
-};
-
 
 int main() {
-     PublicDerived publicObject;
-     publicObject.show();
+   Number first(25);
+   Number second = -first;
 
+     std::cout << "Original value: ";
+     first.display();
 
-     PrivateDerived privateObject;
-     privateObject.callBaseShow();
+     std::cout << "Negated value: ";
+     second.display();
 
-    // privateObject.show(); // Error: show() is private through private inheritance.
-
-
-    return 0;
+     return 0;
 }

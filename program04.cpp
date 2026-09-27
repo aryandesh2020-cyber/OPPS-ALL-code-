@@ -1,63 +1,48 @@
-// Program 04: Implements a Person -> Employee -> Manager three-level hierarchy.
+// Program 04: Overloads prefix and postfix increment operators.
 
 #include <iostream>
-#include <string>
-#include <utility>
 
-
-class Person {
-protected:
-    std::string name;
-
-
-public:
-    explicit Person(std::string personName) : name(std::move(personName)) {}
-
-
-    void showPerson() const {
-        std::cout << "Name: " << name << '\n';
-    }
-
-};
-
-
-class Employee : public Person {
-protected:
-     int employeeId;
-
-
-public:
-     Employee(std::string employeeName, int id)
-         : Person(std::move(employeeName)), employeeId(id) {}
-
-
-     void showEmployee() const {
-         std::cout << "Employee ID: " << employeeId << '\n';
-     }
-};
-
-
-class Manager : public Employee {
+class Counter {
 private:
-     int teamSize;
-
+   int value;
 
 public:
-     Manager(std::string managerName, int id, int size)
-         : Employee(std::move(managerName), id), teamSize(size) {}
+  explicit Counter(int initialValue = 0) : value(initialValue) {}
 
+     Counter& operator++() {
+       ++value;
+       return *this;
+     }
 
-     void showManager() const {
-         showPerson();
-         showEmployee();
-         std::cout << "Team Size: " << teamSize << '\n';
+     Counter operator++(int) {
+       Counter old = *this;
+       ++value;
+       return old;
+     }
+
+     void display() const {
+       std::cout << value << '\n';
      }
 };
-
 
 int main() {
-     Manager manager("Ravi", 501, 8);
-     manager.showManager();
-     return 0;
+   Counter counter(5);
 
+     std::cout << "After prefix increment: ";
+     ++counter;
+     counter.display();
+
+     std::cout << "Value returned by postfix increment: ";
+     Counter oldValue = counter++;
+
+
+
+
+
+     oldValue.display();
+
+     std::cout << "Counter after postfix increment: ";
+     counter.display();
+
+     return 0;
 }

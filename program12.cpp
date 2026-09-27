@@ -1,45 +1,65 @@
-// Program 12: Demonstrates virtual inheritance for the diamond hierarchy.
+// Program 12: Processes derived shape objects through a polymorphic base pointer collection.
 
 #include <iostream>
-#include <string>
-#include <utility>
+#include <memory>
+#include <vector>
 
+class Shape {
+public:
+   virtual double area() const = 0;
+   virtual void displayName() const = 0;
+   virtual ~Shape() = default;
+};
 
-class Person {
-protected:
-     std::string name;
-
+class Rectangle : public Shape {
+private:
+   double length;
+   double width;
 
 public:
-     explicit Person(std::string personName) : name(std::move(personName)) {}
+  Rectangle(double givenLength, double givenWidth)
+     : length(givenLength), width(givenWidth) {}
 
-     void displayName() const {
-         std::cout << "Name: " << name << '\n';
+     double area() const override {
+       return length * width;
+     }
+
+     void displayName() const override {
+       std::cout << "Rectangle";
      }
 };
 
+class Circle : public Shape {
+private:
+   double radius;
 
-class Student : virtual public Person {
+
+
+
+
+
 public:
-     Student() : Person("Unknown") {}
+  explicit Circle(double givenRadius) : radius(givenRadius) {}
+
+     double area() const override {
+       constexpr double PI = 3.141592653589793;
+       return PI * radius * radius;
+     }
+
+     void displayName() const override {
+       std::cout << "Circle";
+     }
 };
-
-
-class Employee : virtual public Person {
-public:
-     Employee() : Person("Unknown") {}
-};
-
-
-class TeachingAssistant : public Student, public Employee {
-public:
-     explicit TeachingAssistant(std::string assistantName)
-         : Person(std::move(assistantName)), Student(), Employee() {}
-};
-
 
 int main() {
-     TeachingAssistant assistant("Riya");
-     assistant.displayName();
+   std::vector<std::unique_ptr<Shape>> shapes;
+   shapes.push_back(std::make_unique<Rectangle>(5.0, 3.0));
+   shapes.push_back(std::make_unique<Circle>(2.0));
+
+     for (const auto& shape : shapes) {
+        shape->displayName();
+        std::cout << " Area: " << shape->area() << '\n';
+     }
+
      return 0;
 }

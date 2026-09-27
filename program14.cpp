@@ -1,32 +1,43 @@
-// Program 14: Creates and uses a nested class inside another class.
+// Program 14: Demonstrates object slicing and why references preserve polymorphic behavior.
 
 #include <iostream>
-#include <string>
-#include <utility>
 
-
-class University {
+class Base {
 public:
-    class Department {
-    private:
-         std::string name;
+   virtual void display() const {
+      std::cout << "Base object\n";
+   }
 
-
-    public:
-         explicit Department(std::string departmentName)
-             : name(std::move(departmentName)) {}
-
-
-         void display() const {
-             std::cout << "Department: " << name << '\n';
-         }
-    };
-
+     virtual ~Base() = default;
 };
 
+class Derived : public Base {
+public:
+   void display() const override {
+     std::cout << "Derived object\n";
+   }
+};
+
+void displayByValue(Base object) {
+  object.display();
+}
+
+void displayByReference(const Base& object) {
+
+
+
+
+    object.display();
+}
 
 int main() {
-     University::Department department("Artificial Intelligence and Data Science");
-     department.display();
-     return 0;
+   Derived derived;
+
+    std::cout << "Passing by value: ";
+    displayByValue(derived);
+
+    std::cout << "Passing by reference: ";
+    displayByReference(derived);
+
+    return 0;
 }

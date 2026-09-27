@@ -1,53 +1,42 @@
-// Program 06: Demonstrates multiple inheritance from two base classes.
+// Program 06: Overloads a relational operator for user-defined Distance objects.
 
 #include <iostream>
 
-
-class Academic {
-protected:
-     int academicMarks;
-
+class Distance {
+private:
+   int meters;
 
 public:
-     explicit Academic(int marks) : academicMarks(marks) {}
+  explicit Distance(int value) : meters(value) {}
+
+    bool operator>(const Distance& other) const {
+      return meters > other.meters;
+    }
+
+    void display() const {
+      std::cout << meters << " meters\n";
+    }
 
 
-     void showAcademic() const {
-         std::cout << "Academic Marks: " << academicMarks << '\n';
-     }
+
+
 };
-
-
-class Sports {
-protected:
-     int sportsMarks;
-
-
-public:
-     explicit Sports(int marks) : sportsMarks(marks) {}
-
-
-     void showSports() const {
-         std::cout << "Sports Marks: " << sportsMarks << '\n';
-     }
-};
-
-
-class Student : public Academic, public Sports {
-public:
-     Student(int academic, int sports)
-         : Academic(academic), Sports(sports) {}
-
-     void showTotal() const {
-         std::cout << "Total Marks: " << academicMarks + sportsMarks << '\n';
-     }
-};
-
 
 int main() {
-     Student student(80, 15);
-     student.showAcademic();
-     student.showSports();
-     student.showTotal();
+   Distance first(120);
+   Distance second(90);
+
+     std::cout << "First distance: ";
+     first.display();
+
+     std::cout << "Second distance: ";
+     second.display();
+
+     if (first > second) {
+         std::cout << "First distance is greater\n";
+     } else {
+         std::cout << "Second distance is greater or equal\n";
+     }
+
      return 0;
 }

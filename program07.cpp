@@ -1,42 +1,43 @@
-// Program 07: Resolves ambiguity between same-named members of two base classes.
+// Program 07: Demonstrates operator overloading through a non-member/friend function.
 
 #include <iostream>
 
+class Complex {
+private:
+   int real;
+   int imaginary;
 
-class Academic {
 public:
+  Complex(int realPart = 0, int imaginaryPart = 0)
+     : real(realPart), imaginary(imaginaryPart) {}
+
+     friend Complex operator+(int value, const Complex& number);
+
      void display() const {
-         std::cout << "Academic information\n";
+       std::cout << real;
+       if (imaginary >= 0) {
+
+
+
+
+            std::cout << " + ";
+         } else {
+            std::cout << " - ";
+         }
+         std::cout << (imaginary >= 0 ? imaginary : -imaginary) << "i\n";
      }
 };
 
-
-class Sports {
-public:
-
-     void display() const {
-         std::cout << "Sports information\n";
-     }
-};
-
-
-class Student : public Academic, public Sports {
-public:
-     void displayAll() const {
-         Academic::display();
-         Sports::display();
-     }
-};
-
+Complex operator+(int value, const Complex& number) {
+  return Complex(value + number.real, number.imaginary);
+}
 
 int main() {
-     Student student;
+   Complex number(2, 3);
+   Complex result = 10 + number;
 
-
-     student.Academic::display();
-     student.Sports::display();
-     student.displayAll();
-
+     std::cout << "Result: ";
+     result.display();
 
      return 0;
 }

@@ -1,35 +1,29 @@
-// Program 08: Demonstrates base/derived constructor and destructor order.
+// Program 08: Demonstrates static binding through a base pointer and non-virtual function.
 
 #include <iostream>
 
-
 class Base {
 public:
-     Base() {
-         std::cout << "Base constructor\n";
-     }
-
-
-     ~Base() {
-         std::cout << "Base destructor\n";
-     }
+   void display() const {
+     std::cout << "Base display function\n";
+   }
 };
-
 
 class Derived : public Base {
 public:
-     Derived() {
-         std::cout << "Derived constructor\n";
-     }
-
-
-     ~Derived() {
-         std::cout << "Derived destructor\n";
-     }
+   void display() const {
+     std::cout << "Derived display function\n";
+   }
 };
 
-
 int main() {
-     Derived object;
+   Derived derivedObject;
+   Base* basePointer = &derivedObject;
+
+     basePointer->display();
+
+
+
+
      return 0;
 }

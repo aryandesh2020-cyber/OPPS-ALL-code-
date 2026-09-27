@@ -1,45 +1,28 @@
-// Program 01: Demonstrates single inheritance using Person as base and Student as derived class.
+// Program 01: Demonstrates compile-time polymorphism through function overloading.
 
 #include <iostream>
-#include <string>
-#include <utility>
 
+int add(int first, int second) {
+   return first + second;
+}
 
-class Person {
-protected:
-     std::string name;
+double add(double first, double second) {
+  return first + second;
+}
 
-
-public:
-     explicit Person(std::string personName) : name(std::move(personName)) {}
-
-
-     void displayName() const {
-         std::cout << "Name: " << name << '\n';
-     }
-};
-
-
-class Student : public Person {
-private:
-
-     int rollNumber;
-
-
-public:
-     Student(std::string studentName, int roll)
-         : Person(std::move(studentName)), rollNumber(roll) {}
-
-
-     void displayStudent() const {
-         displayName();
-         std::cout << "Roll Number: " << rollNumber << '\n';
-     }
-};
-
+int add(int first, int second, int third) {
+   return first + second + third;
+}
 
 int main() {
-     Student student("Amit", 101);
-     student.displayStudent();
-     return 0;
+   std::cout << "Sum of two integers: " << add(10, 20) << '\n';
+   std::cout << "Sum of two doubles: " << add(2.5, 3.7) << '\n';
+   std::cout << "Sum of three integers: " << add(10, 20, 30) << '\n';
+
+
+
+
+
+
+    return 0;
 }

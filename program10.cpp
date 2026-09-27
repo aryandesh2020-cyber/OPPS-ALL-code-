@@ -1,40 +1,57 @@
-// Program 10: Demonstrates overriding of a virtual member function.
+// Program 10: Uses a base reference for dynamic dispatch.
 
 #include <iostream>
 
-
-class Vehicle {
+class Shape {
 public:
-     virtual void move() const {
-         std::cout << "Vehicle is moving\n";
-     }
+   virtual double area() const {
+      return 0.0;
+   }
 
-
-     virtual ~Vehicle() = default;
+     virtual ~Shape() = default;
 };
 
-class Car : public Vehicle {
-public:
-     void move() const override {
-         std::cout << "Car moves on roads\n";
-     }
-};
+class Rectangle : public Shape {
+private:
+   double length;
+   double width;
 
-
-class Boat : public Vehicle {
 public:
-     void move() const override {
-         std::cout << "Boat moves on water\n";
+  Rectangle(double givenLength, double givenWidth)
+     : length(givenLength), width(givenWidth) {}
+
+     double area() const override {
+       return length * width;
      }
 };
 
+class Circle : public Shape {
+private:
+   double radius;
+
+public:
+  explicit Circle(double givenRadius) : radius(givenRadius) {}
+
+     double area() const override {
+       constexpr double PI = 3.141592653589793;
+       return PI * radius * radius;
+     }
+
+
+
+
+};
+
+void printArea(const Shape& shape) {
+  std::cout << "Area: " << shape.area() << '\n';
+}
 
 int main() {
-     Car car;
-     Boat boat;
+   Rectangle rectangle(5.0, 3.0);
+   Circle circle(2.0);
 
+     printArea(rectangle);
+     printArea(circle);
 
-     car.move();
-     boat.move();
      return 0;
 }

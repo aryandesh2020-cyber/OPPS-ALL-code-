@@ -1,40 +1,45 @@
-// Program 09: Initializes a parameterized base class through a derived constructor.
+// Program 09: Demonstrates run-time polymorphism through a base pointer and virtual function.
 
 #include <iostream>
-#include <string>
-#include <utility>
 
-
-class Person {
-protected:
-     std::string name;
-
-
+class Animal {
 public:
-     explicit Person(std::string personName) : name(std::move(personName)) {}
+   virtual void sound() const {
+      std::cout << "Animal makes a sound\n";
+   }
+
+     virtual ~Animal() = default;
 };
 
-
-class Student : public Person {
-private:
-     int rollNumber;
-
-
+class Dog : public Animal {
 public:
-     Student(std::string studentName, int roll)
-
-         : Person(std::move(studentName)), rollNumber(roll) {}
-
-
-     void display() const {
-         std::cout << "Name: " << name << '\n';
-         std::cout << "Roll Number: " << rollNumber << '\n';
-     }
+   void sound() const override {
+     std::cout << "Dog barks\n";
+   }
 };
 
+class Cat : public Animal {
+public:
+   void sound() const override {
+     std::cout << "Cat meows\n";
+   }
+};
 
 int main() {
-     Student student("Kiran", 24);
-     student.display();
+   Dog dog;
+   Cat cat;
+
+     Animal* animal = &dog;
+     animal->sound();
+
+     animal = &cat;
+     animal->sound();
+
      return 0;
+
+
+
+
+
+
 }
